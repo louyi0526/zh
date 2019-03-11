@@ -1,0 +1,29 @@
+
+{include file="public/header" /}
+{include file="public/nav" /}
+<div class="row">
+    <div class="col-md-8">
+        <div class="page-header">
+            <h2>{$art.cate_id|getCateName}</h2>
+        </div>
+
+
+        <div>
+
+
+            <h4><a href="{:url('index/detail',['id'=>$art.id])}">{$art.title}</a></h4>
+            <p>发布者:{$art.user_id|getUserName}{//app\common.php文件里面写函数方法}&nbsp;&nbsp;&nbsp;&nbsp;发布时间:{$art.create_time}&nbsp;&nbsp;&nbsp;&nbsp;阅读量:{$art.pv}
+            </p>
+            <div>{$art.content|getArtContent}</div>
+            <hr>
+
+        </div>
+
+
+
+
+    </div>
+    {include file="public/right" /}
+
+</div>
+{include file="public/footer" /}

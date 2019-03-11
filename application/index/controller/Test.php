@@ -7,21 +7,23 @@
  */
 
 namespace app\index\controller;
-
+use app\common\model\User;
 use app\common\controller\Base;
 class Test extends Base
 {
     //测试用的验证器
     public function test1()
     {
-        $data = [
-            'name'=>'zhuzz',
-            'email'=>'123@qq.com',
-            'mobile'=>'15958155732',
-            'password'=>'123dfdfd',
-        ];
-        $rule = 'app\common\validate\User';
+//        $data = [
+//            'name'=>'zhuzz',
+//            'email'=>'123@qq.com',
+//            'mobile'=>'15958155732',
+//            'password'=>'123dfdfd',
+//        ];
+//        $rule = 'app\common\validate\User';
+//
+//        return $this->validate($data,$rule);
 
-        return $this->validate($data,$rule);
+        dump(User::get(['status'=>1]));//只取一条数据
     }
 }

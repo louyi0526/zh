@@ -1,0 +1,67 @@
+
+{include file="public/header" /}
+{include file="public/nav" /}
+<div class="row">
+    <div class="col-md-8">
+        <div class="page-header">
+            <h2>发布文章</h2>
+
+            <form action="{:url('index/index/save')}" class="form-horizontal" method="post" enctype="multipart/form-data">
+                <input type="hidden" value="{$Think.session.user_id}" name="user_id" id="user_id">
+                <div class="form-group">
+                    <label for="title" class="col-sm-2 control-label">标题</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="title" placeholder="标题" name="title">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cate_id" class="col-sm-2 control-label">栏目</label>
+                    <div class="col-sm-10">
+                        <select name="cate_id" id="cate_id" class="form-control">
+                            {volist name="cateList" id="cate"}
+                            <option value="{$cate.id}">{$cate.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="content" class="col-sm-2 control-label">内容</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" name="content" id="content" cols="30" rows="10" >
+
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="title" class="col-sm-2 control-label">标题图片</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" id="title_img" name="title_img">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" class="btn btn-primary" id="submit" value="发布">
+                    </div>
+                </div>
+            </form>
+            <script>
+                bkLib.onDomLoaded(function() {
+
+                    new nicEditor({iconsPath : '/static/js/nicEditorIcons.gif'}).panelInstance('content');
+
+                });
+            </script>
+        </div>
+
+
+    </div>
+
+
+    {include file="public/right" /}
+</div>
+{include file="public/footer" /}
