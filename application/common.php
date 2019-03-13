@@ -33,3 +33,43 @@ if (!function_exists('getCateName')) {
         return Db::table('zh_article_category')->where('id', $cateId)->value('name');
     }
 }
+
+if (!function_exists('getFav')) {
+    function getFav($art_id)
+    {
+        if (!session('user_id')){
+            return '我要收藏1';
+        }
+        $info = Db::table('zh_user_fav')
+            ->where('art_id', $art_id)
+            ->where('user_id', session('user_id'))
+            ->value('id');
+        if (is_null($info)){
+            return '我要收藏';
+        }else{
+            return '取消收藏';
+        }
+
+    }
+}
+if (!function_exists('getLike')) {
+    function getLike($art_id)
+    {
+        if (!session('user_id')){
+            return '我要收藏1';
+        }
+        $info = Db::table('zh_user_like')
+            ->where('art_id', $art_id)
+            ->where('user_id', session('user_id'))
+            ->value('id');
+        if (is_null($info)){
+            return '我要点赞';
+        }else{
+            return '取消点赞';
+        }
+
+    }
+}
+
+
+

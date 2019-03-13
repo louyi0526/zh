@@ -4,6 +4,7 @@ namespace app\index\controller;
 use app\common\controller\Base;
 use app\common\model\ArtCate;
 use app\common\model\Article;
+use Think\Db;
 use think\facade\Request;
 
 class Index extends Base
@@ -139,6 +140,61 @@ class Index extends Base
         $this->view->assign('title','详情页面');
         return $this->view->fetch();
 
+    }
+
+    //收藏
+    public function fav()
+    {
+        if (!Request::isAjax())
+        {
+            return ['status'=>-1,'message'=>'请求类型错误'];
+        }
+        if (!session('user_id')){
+            return ['status'=>-2,'message'=>'请登录后收藏'];
+        }
+        $data = Request::param();
+        $map[]=['user_id','=',$data['user_id']];
+        $map[]=['art_id','=',$data['art_id']];
+        $fav = Db::table('zh_user_fav')->where($map)->find();
+        if (is_null($fav)){
+            Db::table('zh_user_fav')
+                ->data([
+                'user_id'=>$data['user_id'],
+                'art_id'=>$data['art_id'],
+            ])
+                ->insert();
+            return ['status'=>1,'message'=>'收藏成功'];
+        }else {
+            Db::table('zh_user_fav')->where($map)->delete();
+            return ['status'=>0,'message'=>'已取消'];
+        }
+    }
+    //点赞
+    public function like()
+    {
+        if (!Request::isAjax())
+        {
+            return ['status'=>-1,'message'=>'请求类型错误'];
+        }
+        if (!session('user_id')){
+            return ['status'=>-2,'message'=>'请登录后点赞'];
+        }
+        $data = Request::param();
+        $map[]=['user_id','=',$data['user_id']];
+        $map[]=['art_id','=',$data['art_id']];
+        $like = Db::table('zh_user_like')->where($map)->find();
+        if (is_null($like)){
+            Db::table('zh_user_like')
+                ->data([
+                'user_id'=>$data['user_id'],
+                'art_id'=>$data['art_id'],
+            ])
+                ->insert();
+            return ['status'=>1,'message'=>'收藏成功'];
+        }else {
+            Db::table('zh_user_like')->where($map)->delete();
+            return ['status'=>0,'message'=>'已取消'];
+        }
     }
 
 }

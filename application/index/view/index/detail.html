@@ -16,9 +16,71 @@
             </p>
             <div>{$art.content|getArtContent}</div>
             <hr>
-
+            <input type="button" class="btn btn-success" id="fav" user_id="{$art.user_id}" article_id="{$art.id}"  value="{$art.id|getFav}">
+            <input type="button" class="btn btn-warning" id="like" user_id="{$art.user_id}" article_id="{$art.id}"  value="{$art.id|getLike}">
         </div>
+        <script>
+            $(function () {
+                //收藏
+                $('#fav').click(function () {
 
+                    var userId = $(this).attr('user_id');
+                    var artId = $(this).attr('article_id');
+
+                    if (userId && artId) {
+
+                        $.ajax({
+                            type:'get',
+                            url:"{:url('index/fav')}",
+                            data: {
+                                user_id:userId,
+                                art_id:artId,
+                            },
+                            dataType:'json',
+                            success: function (data) {
+
+                                if (data.status == 1){
+                                    $('#fav').val('取消收藏');
+                                }else if (data.status == 0){
+                                    $('#fav').val('我要收藏');
+                                }else {
+                                    alert(data.message);
+                                }
+                            }
+                        })
+                    }
+                });
+                //点赞
+                $('#like').click(function () {
+
+                    var userId = $(this).attr('user_id');
+                    var artId = $(this).attr('article_id');
+
+                    if (userId && artId) {
+
+                        $.ajax({
+                            type:'get',
+                            url:"{:url('index/like')}",
+                            data: {
+                                user_id:userId,
+                                art_id:artId,
+                            },
+                            dataType:'json',
+                            success: function (data) {
+
+                                if (data.status == 1){
+                                    $('#like').val('取消点赞');
+                                }else if (data.status == 0){
+                                    $('#like').val('我要点赞');
+                                }else {
+                                    alert(data.message);
+                                }
+                            }
+                        })
+                    }
+                });
+            })
+        </script>
 
 
 
