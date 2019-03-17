@@ -1,0 +1,61 @@
+{layout name="public:layout" /}
+
+<h4 class="text-center text-danger">编辑分类信息</h4>
+<form class="form-horizontal" method="post" id="cateInfo">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">栏目名</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="name" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">排序</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" name="sort" >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">状态</label>
+        <div class="col-sm-10">
+            <label class="radio-inline">
+                <input type="radio" name="status"  value="1" checked>显示
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" value="0"> 隐藏
+            </label>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" id="doAdd" class="btn btn-info">新增</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $("#doAdd").click(function () {
+            $.ajax({
+                type:'post',
+                url:"{:url('admin/cate/doAdd')}",
+                data:$('#cateInfo').serialize(),
+                dataType:'json',
+                success:function (data) {
+                    // alert(data.message);return;
+                    if (data.status == 1) {
+                        alert(data.message);
+                        location.href="{:url('admin/cate/cateList')}";
+                    }else {
+                        alert(data.message);
+                        return false;
+                    }
+                }
+            })
+        });
+    })
+</script>

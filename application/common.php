@@ -12,7 +12,7 @@
 // 应用公共文件
 
 use think\Db;
-//根据用户主键ID,查询
+//根据用户主键ID,查询,获取用户名
 if (!function_exists('getUserName'))
 {
     function getUserName($id)
@@ -27,6 +27,7 @@ function getArtContent($content)
     return mb_substr(strip_tags($content),0,5).'>>>';
 }
 
+//根据cate主键ID,查询,获取栏目名
 if (!function_exists('getCateName')) {
     function getCateName($cateId)
     {
@@ -38,7 +39,7 @@ if (!function_exists('getFav')) {
     function getFav($art_id)
     {
         if (!session('user_id')){
-            return '我要收藏1';
+            return '我要收藏';
         }
         $info = Db::table('zh_user_fav')
             ->where('art_id', $art_id)
@@ -70,6 +71,7 @@ if (!function_exists('getLike')) {
 
     }
 }
+
 
 
 

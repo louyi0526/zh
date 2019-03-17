@@ -5,9 +5,13 @@
  */
 
 namespace app\common\controller;
+use app\admin\common\model\Site;
+use app\common\model\Article;
 use think\Controller;
 use think\facade\Session;
 use app\common\model\ArtCate;
+use think\facade\Request;
+
 class Base extends Controller
 {
     /**
@@ -18,7 +22,15 @@ class Base extends Controller
     protected function initialize()
     {
         //初始化调用
+        //站点是否开启
+        $this->is_open();
+
+        //导航条
         $this->showNav();
+
+        //热门排行
+        $this->getHotArt();
+
     }
 
         //重复登录
@@ -46,4 +58,36 @@ class Base extends Controller
             });
             $this->view->assign('cateList',$cateList);
         }
+
+        //检测站点是否关闭
+    public function is_open()
+    {
+        $isOpen=Site::where('status',1)->value('is_open');
+
+        if ($isOpen==0&& Request::module() == 'index'){
+            $info = '站点维护中...';
+            exit($info);
+        }
+    }
+
+    //检测注册是否关闭
+    public function is_reg()
+    {
+        $isReg=Site::where('status',1)->value('is_reg');
+
+        if ($isReg==0){
+            $this->error('注册关闭','index/index');
+        }
+    }
+
+    //根据阅读量PV来获取
+    public function getHotArt()
+    {
+        $hotArtList=Article::where('status',1)
+            ->order('pv','desc')
+            ->limit(12)
+            ->select();
+        $this->view->assign('hotArtList',$hotArtList);
+
+    }
 }
